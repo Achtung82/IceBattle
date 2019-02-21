@@ -13,6 +13,7 @@ export default class Game {
     this.viewHeight = 500;
     this.element.appendChild(this.renderer.view);
     this._lastFrameTime = 0;
+    this.moving = false;
     this.updatable = [];
     this.bindInput();
     this.createPlayer();
@@ -25,10 +26,17 @@ export default class Game {
   }
   update(currentTime) {
     const msSinceLastFrame = currentTime - this._lastFrameTime;
+    if(!this.moving && this.player.ypos < 300) {
+      this.moving = true;
+    }
+    if(this.moving && this.player.ypos > 400) {
+      this.moving = false;
+    }
     this.stage.update(currentTime, msSinceLastFrame);
-    this.player.update(msSinceLastFrame);
+    if (!this.moving) {
+      this.player.update(msSinceLastFrame);
+    }
     resolvePlatforms(this.player, this.stage.platforms);
-    this.stage.moving = this.player.ypos < 250;
     this.updatable.forEach((gameObject) => {
       gameObject.updateViewPos();
     });

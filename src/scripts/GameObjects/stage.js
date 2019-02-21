@@ -9,7 +9,6 @@ export class Stage extends Container {
     super();
     this.game = game;
     this.platforms = [];
-    this.moving = false;
   }
   createInitialPlatforms() {
     this.addPlatform(0, 480, 500);
@@ -34,10 +33,11 @@ export class Stage extends Container {
     this.game.updatable.push(floor);
   }
   update(currentTime, msSinceLastFrame) {
-    if (this.moving) {
+    if (this.game.moving) {
       this.platforms.forEach((platform) => {
         platform.ypos += 0.2 * msSinceLastFrame;
       });
+      this.game.player.ypos += 0.2 * msSinceLastFrame;
       this.platforms.filter((platform) => platform.ypos > 500)
       .map((platform, index) => index).reverse()
       .forEach((i)=> {

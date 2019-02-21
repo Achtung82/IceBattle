@@ -1,5 +1,5 @@
 const MOVE_SPEED = 10;
-const GRAVITY = 16;
+const GRAVITY = 18;
 const MAX_FALL_SPEED = 60;
 
 const decreaseValue = (value, delta) => {

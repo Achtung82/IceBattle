@@ -36,10 +36,10 @@ export class Climber extends GameObject {
   jump() {
     if (this.stand) {
       this.doubleJumpSaved = 1;
-      this.downSpeed = -40;
+      this.downSpeed = -50;
     } else if (this.doubleJumpSaved > 0) {
       this.doubleJumpSaved--;
-      this.downSpeed = -40;
+      this.downSpeed = -50;
     }
   }
 }
