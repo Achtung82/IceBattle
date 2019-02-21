@@ -33,7 +33,7 @@ export const boxCollission = (a, b) => {
     a.ypos < b.ypos + b.viewHeight &&
     a.viewHeight + a.ypos > b.ypos) {
     return {
-      dx: 0, dy: Math.abs(a.ypos - b.ypos) - (a.viewHeight/2 + b.viewHeight/2)
+      dx: 0, dy: Math.abs(a.ypos - b.ypos) - (a.viewHeight / 2 + b.viewHeight / 2)
     }
   } else {
     return false;
@@ -41,13 +41,14 @@ export const boxCollission = (a, b) => {
 }
 
 export const boxCollissions = (player, other) => {
-  for(let i = 0; i < other.length; i++) {
+  for (let i = 0; i < other.length; i++) {
     const collissionResult = boxCollission(player, other[i]);
-    if(collissionResult) {
+    if (collissionResult) {
       player.xpos += collissionResult.dx;
       player.ypos += collissionResult.dy;
-      if(player.downSpeed > 0) {
+      if (player.downSpeed > 0) {
         player.stand = true;
+        player.downSpeed = 0;
         return;
       }
     }

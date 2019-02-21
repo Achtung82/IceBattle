@@ -1,5 +1,5 @@
 const MOVE_SPEED = 8;
-const GRAVITY = 15;
+const GRAVITY = 18;
 const MAX_FALL_SPEED = 60;
 
 export const moveClimber = (climber, msSinceLastFrame) => {

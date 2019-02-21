@@ -26,7 +26,7 @@ export default class Game {
     this.updatable.push(this.player);
   }
   createPlatforms() {
-    const floor = new Platform(this, 0, 485, 500);
+    const floor = new Platform(this, 0, 490, 500);
     this.platforms.push(floor);
     this.updatable.push(floor);
   }
