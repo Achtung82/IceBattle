@@ -1,7 +1,6 @@
 import { autoDetectRenderer } from "pixi.js";
 import { Climber } from "./GameObjects/climber.js";
 import { Stage } from "./GameObjects/stage.js";
-import { moveClimber } from "./Functions/movement.js";
 import { resolvePlatforms } from "./Functions/collision.js";
 import { handleKeyDown, handleKeyUp } from "./Functions/userinput.js";
 
@@ -15,26 +14,24 @@ export default class Game {
     this.element.appendChild(this.renderer.view);
     this._lastFrameTime = 0;
     this.updatable = [];
-    this.platforms = [];
     this.bindInput();
     this.createPlayer();
     this.stage.createInitialPlatforms();
     requestAnimationFrame(this.update.bind(this));
   }
   createPlayer() {
-    this.player = new Climber(this, 100, 100);
+    this.player = new Climber(this, 50, 300);
     this.updatable.push(this.player);
   }
   update(currentTime) {
     const msSinceLastFrame = currentTime - this._lastFrameTime;
-    moveClimber(this.player, msSinceLastFrame);
-    resolvePlatforms(this.player, this.platforms);
-
+    this.stage.update(currentTime, msSinceLastFrame);
+    this.player.update(msSinceLastFrame);
+    resolvePlatforms(this.player, this.stage.platforms);
+    this.stage.moving = this.player.ypos < 250;
     this.updatable.forEach((gameObject) => {
       gameObject.updateViewPos();
     });
-
-    this.stage.update(currentTime, msSinceLastFrame);
 
     this._lastFrameTime = currentTime;
     this.renderer.render(this.stage);

@@ -1,4 +1,5 @@
 import { Graphics } from "pixi.js";
+import { moveClimber } from "../Functions/movement.js";
 import GameObject from "./gameobject.js"
 
 export class Climber extends GameObject {
@@ -20,6 +21,12 @@ export class Climber extends GameObject {
     graphics.drawRect(0, 0, this.renderWidth, this.renderHeight);
     this.addChild(graphics);
   }
+  update(msSinceLastFrame) {
+    moveClimber(this, msSinceLastFrame);
+    if(this.xpos > 500) {
+      this.emit("death");
+    }
+  }
   left(value) {
     this._left = value;
   }
@@ -29,10 +36,10 @@ export class Climber extends GameObject {
   jump() {
     if (this.stand) {
       this.doubleJumpSaved = 1;
-      this.downSpeed = -50;
+      this.downSpeed = -40;
     } else if (this.doubleJumpSaved > 0) {
       this.doubleJumpSaved--;
-      this.downSpeed = -50;
+      this.downSpeed = -40;
     }
   }
 }

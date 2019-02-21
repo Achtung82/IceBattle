@@ -1,3 +1,23 @@
+export const boxCollissionWithParameters = (x, y, width, b) => {
+  if (x < b.xpos + b.viewWidth &&
+    x + width > b.xpos &&
+    y < b.ypos + b.viewHeight &&
+    20 + y > b.ypos) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+export const platformCollission = (x, y, width, platforms) => {
+  for(let i= 0; i < platforms.length; i++) {
+    if(boxCollissionWithParameters(x, y, width, platforms[i])) {
+      return true;
+    }
+  }
+  return false;
+}
+
 export const boxCollission = (a, b) => {
   if (a.xpos < b.xpos + b.viewWidth &&
     a.xpos + a.viewWidth > b.xpos &&

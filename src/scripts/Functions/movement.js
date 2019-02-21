@@ -1,5 +1,5 @@
-const MOVE_SPEED = 8;
-const GRAVITY = 18;
+const MOVE_SPEED = 10;
+const GRAVITY = 16;
 const MAX_FALL_SPEED = 60;
 
 const decreaseValue = (value, delta) => {
@@ -13,7 +13,12 @@ const decreaseValue = (value, delta) => {
 export const moveClimber = (climber, msSinceLastFrame) => {
   const deltaTime = msSinceLastFrame / 100;
   climber.xpos += (climber._right ? MOVE_SPEED * deltaTime : 0) + (climber._left ? -MOVE_SPEED * deltaTime : 0) + climber.sideSpeed * deltaTime;
-  climber.sideSpeed = decreaseValue(climber.sideSpeed, deltaTime * 5);
+  if(climber.xpos > 500) {
+    climber.xpos -= 500;
+  } else if(climber.xpos < 0) {
+    climber.xpos += 500;
+  }
+  climber.sideSpeed = decreaseValue(climber.sideSpeed, deltaTime * 8);
   if(climber.stand && !climber._right && !climber._left) {
     return;
   }
