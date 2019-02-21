@@ -16,8 +16,6 @@ export class Climber extends GameObject {
     const graphics = new Graphics();
     graphics.beginFill(0xffeb3b, 1);
     graphics.drawRect(0, 0, this.renderWidth, this.renderHeight);
-    // graphics.position.x = (this.width / 2) - (graphics.width / 2);
-    // graphics.position.y = (this.height / 2) - (graphics.height / 2);
     this.addChild(graphics);
   }
   left(value) {
