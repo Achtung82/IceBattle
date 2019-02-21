@@ -16,12 +16,16 @@ export const boxCollissions = (player, other) => {
   for (let i = 0; i < other.length; i++) {
     const collissionResult = boxCollission(player, other[i]);
     if (collissionResult) {
-      player.xpos += collissionResult.dx;
-      player.ypos += collissionResult.dy;
       if (player.downSpeed > 0) {
+        //player.xpos += collissionResult.dx;
+        player.ypos += collissionResult.dy;
         player.stand = true;
         player.downSpeed = 0;
         return;
+      } else if(player.downSpeed < 0) {
+        player.stand = false;
+        player.ypos -= collissionResult.dy;
+        player.downSpeed = -player.downSpeed * 0.5;
       }
     }
   }
