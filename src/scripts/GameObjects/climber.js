@@ -24,7 +24,8 @@ export class Climber extends GameObject {
   update(msSinceLastFrame) {
     moveClimber(this, msSinceLastFrame);
     if(this.xpos > 500) {
-      this.emit("death");
+      this.emit("die");
+      this.destroy();
     }
   }
   left(value) {

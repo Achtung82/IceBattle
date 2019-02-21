@@ -1,5 +1,6 @@
 import { autoDetectRenderer } from "pixi.js";
 import { Climber } from "./GameObjects/climber.js";
+import { Explosion } from "./GameObjects/explosion.js";
 import { Stage } from "./GameObjects/stage.js";
 import { resolvePlatforms } from "./Functions/collision.js";
 import { handleKeyDown, handleKeyUp } from "./Functions/userinput.js";
@@ -15,6 +16,7 @@ export default class Game {
     this._lastFrameTime = 0;
     this.moving = false;
     this.updatable = [];
+    this.explosions = [];
     this.bindInput();
     this.createPlayer();
     this.stage.createInitialPlatforms();
@@ -23,13 +25,33 @@ export default class Game {
   createPlayer() {
     this.player = new Climber(this, 50, 300);
     this.updatable.push(this.player);
+    this.bindPlayerDeath(this.player);
+  }
+  bindPlayerDeath(player) {
+    this.player.on("die", () => {
+      const index = this.updatable.indexOf(unit);
+      this.updatable.splice(index, 1);
+      //this.createExplosion(this.player);
+      //this.player = {};
+    })
+  }
+  createExplosion(origin) {
+    const exp = new Explosion(this, origin);
+    this.explosions.push(exp);
+    this.updatable.push(exp);
+    exp.on("die", () => {
+      const index = this.explosions.indexOf(exp);
+      this.explosions.splice(index, 1);
+      const updIndex = this.updatable.indexOf(exp);
+      this.updatable.splice(updIndex, 1);
+    });
   }
   update(currentTime) {
     const msSinceLastFrame = currentTime - this._lastFrameTime;
-    if(!this.moving && this.player.ypos < 300) {
+    if (!this.moving && this.player.ypos < 300) {
       this.moving = true;
     }
-    if(this.moving && this.player.ypos > 400) {
+    if (this.moving && this.player.ypos > 400) {
       this.moving = false;
     }
     this.stage.update(currentTime, msSinceLastFrame);
