@@ -11,11 +11,11 @@ export class Stage extends Container {
     this.game.platforms.push(floor);
     this.game.updatable.push(floor);
 
-    const firstLevel = new Platform(this.game, 150, 430, 150);
+    const firstLevel = new Platform(this.game, 150, 410, 150);
     this.game.platforms.push(firstLevel);
     this.game.updatable.push(firstLevel);
 
-    const secondLevel = new Platform(this.game, 320, 380, 100);
+    const secondLevel = new Platform(this.game, 320, 360, 100);
     this.game.platforms.push(secondLevel);
     this.game.updatable.push(secondLevel);
   }

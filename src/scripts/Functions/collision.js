@@ -3,8 +3,19 @@ export const boxCollission = (a, b) => {
     a.xpos + a.viewWidth > b.xpos &&
     a.ypos < b.ypos + b.viewHeight &&
     a.viewHeight + a.ypos > b.ypos) {
+    if (a.xpos + a.viewWidth - b.xpos < 3) {
+      return {
+        dx: Math.abs(a.xpos - b.xpos) - a.viewWidth,
+        dy: 0
+      }
+    } else if(b.xpos + b.viewWidth - a.xpos < 3) {
+      return {
+        dx: Math.abs(b.viewWidth + b.xpos - a.xpos),
+        dy: 0
+      }
+    }
     return {
-      dx: 0,//Math.abs(a.xpos - b.xpos) - (a.viewWidth / 2 + b.viewWidth / 2), 
+      dx: 0,
       dy: Math.abs(a.ypos - b.ypos) - (a.viewHeight / 2 + b.viewHeight / 2)
     }
   } else {
@@ -12,20 +23,29 @@ export const boxCollission = (a, b) => {
   }
 }
 
-export const boxCollissions = (player, other) => {
+export const resolvePlatforms = (player, other) => {
   for (let i = 0; i < other.length; i++) {
     const collissionResult = boxCollission(player, other[i]);
     if (collissionResult) {
-      if (player.downSpeed > 0) {
-        //player.xpos += collissionResult.dx;
-        player.ypos += collissionResult.dy;
-        player.stand = true;
-        player.downSpeed = 0;
-        return;
-      } else if(player.downSpeed < 0) {
-        player.stand = false;
-        player.ypos -= collissionResult.dy;
-        player.downSpeed = -player.downSpeed * 0.5;
+      if (collissionResult.dy) {
+        if (player.downSpeed > 0) {
+          player.ypos += collissionResult.dy;
+          player.stand = true;
+          player.downSpeed = 0;
+          return;
+        } else if (player.downSpeed < 0) {
+          player.stand = false;
+          player.ypos -= collissionResult.dy;
+          player.downSpeed = -player.downSpeed * 0.5;
+        }
+      } else if (collissionResult.dx) {
+        if (collissionResult.dx < 0 && player._right) {
+          player.xpos += collissionResult.dx;
+          player.sideSpeed = -15;
+        } else if(collissionResult.dx > 0 && player._left) {
+          player.xpos += collissionResult.dx;
+          player.sideSpeed = 15;
+        }
       }
     }
   }

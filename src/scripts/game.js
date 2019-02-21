@@ -2,7 +2,7 @@ import { autoDetectRenderer } from "pixi.js";
 import { Climber } from "./GameObjects/climber.js";
 import { Stage } from "./GameObjects/stage.js";
 import { moveClimber } from "./Functions/movement.js";
-import { boxCollissions } from "./Functions/collision.js";
+import { resolvePlatforms } from "./Functions/collision.js";
 import { handleKeyDown, handleKeyUp } from "./Functions/userinput.js";
 
 export default class Game {
@@ -28,7 +28,7 @@ export default class Game {
   update(currentTime) {
     const msSinceLastFrame = currentTime - this._lastFrameTime;
     moveClimber(this.player, msSinceLastFrame);
-    boxCollissions(this.player, this.platforms);
+    resolvePlatforms(this.player, this.platforms);
 
     this.updatable.forEach((gameObject) => {
       gameObject.updateViewPos();

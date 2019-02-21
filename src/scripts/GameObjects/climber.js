@@ -10,6 +10,8 @@ export class Climber extends GameObject {
     this._left = false;
     this._right = false;
     this.downSpeed = 0;
+    this.sideSpeed = 0;
+    this.doubleJumpSaved = 0;
     this.stand = false;
   }
   createGraphic() {
@@ -26,6 +28,10 @@ export class Climber extends GameObject {
   }
   jump() {
     if (this.stand) {
+      this.doubleJumpSaved = 1;
+      this.downSpeed = -50;
+    } else if (this.doubleJumpSaved > 0) {
+      this.doubleJumpSaved--;
       this.downSpeed = -50;
     }
   }
